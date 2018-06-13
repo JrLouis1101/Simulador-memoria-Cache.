@@ -1,0 +1,52 @@
+Introdução
+	Foram implementados dois códigos na linguagem C que simulam uma memória cache mapeada diretamente e com mapeamento associativo. Além disso, foram aplicadas as políticas de substituição FIFO e LRU.
+
+Arquitetura
+	No mapeamento direto foi implementado duas estruturas chamadas cache e linha, como visto no trecho do código abaixo:
+
+struct linha
+{
+	unsigned int tag;
+	bool bit_validade;
+	void* bloco;
+};
+typedef struct linha Linha;
+
+struct cache
+{
+	Linha* linhas;
+	int cache_hit;
+	int cache_miss;
+	unsigned int size_bloco;
+	unsigned int num_linhas; 
+};
+typedef struct cache Cache;
+	
+	No mapeamento associativo foram implementado três estruturas chamadas cache, conjunto e caminho, como visto no trecho do código abaixo:
+
+struct caminho{
+	bool bit_validade;
+	unsigned int tag;
+	unsigned int sujo;
+	void* bloco;
+};
+typedef struct caminho Caminho;
+
+struct conjunto{
+	Caminho *caminho;
+};
+typedef struct conjunto Conjunto;
+
+struct cache{
+	Conjunto *conjuntos;
+	unsigned int size_bloco;
+	unsigned int num_linhas; 
+	unsigned int num_conjuntos;
+	unsigned int qtd_caminho;
+	int cache_miss;
+	int cache_hit;
+};
+typedef struct cache Cache;
+
+Testes
+	Ao criar uma cache nós informamos o número de linhas e o tamanho do bloco, caso seja mapeada diretamente, e número de linhas, tamanho do bloco e quantidade de caminhos caso seja mapeado de modo associativo. Podendo aumentar e diminuir o tamanho da cache conseguimos ver o quanto a cache é capaz de armazenar influenciando diretamente o número de cache miss e cache hits.
